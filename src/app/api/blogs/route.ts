@@ -4,5 +4,5 @@ export async function GET(req: NextRequest) {
   return new NextResponse("GET BLOGS");
 }
 export async function POST(req: NextRequest) {
-  return new NextResponse("POST BLOGS");
+  return new NextResponse("ADD BLOGS");
 }
