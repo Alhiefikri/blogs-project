@@ -4,6 +4,8 @@ import { DivideCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
+import AddBlog from "./blogs/AddBlog";
+import { Button } from "./ui/button";
 
 const navMenu: { title: string; path: string }[] = [
   { title: "Category", path: "/category" },
@@ -28,12 +30,14 @@ export default function Header() {
 
         <div className="flex items-center gap-x-1 lg:gap-x-2 ms-auto py-1 lg:ps-6 lg:order-3 lg:col-span-3">
           <ModeToggle />
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none"
+          <AddBlog
+            title="Add New Blog"
+            description="Create your Blog, make sure you save the changes"
           >
-            Hire us
-          </button>
+            <Button className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
+              Add Blog
+            </Button>
+          </AddBlog>
 
           <div className="lg:hidden">
             <button
