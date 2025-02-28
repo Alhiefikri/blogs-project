@@ -76,5 +76,41 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return new NextResponse(`Update BLOG Detail ${params.id}`);
+  try {
+    const { title, description, imageURL } = await req.json();
+    await connectDB(mongo_uri);
+    const blog = await Blog.findOne({ _id: params.id });
+
+    blog.title = title;
+    blog.description = description;
+    blog.imageURL = imageURL;
+
+    const updatedBlog = await blog.save();
+
+    return NextResponse.json({
+      success: true,
+      data: updatedBlog,
+    });
+  } catch (error: any) {
+    if (error.name === "CastError" && error.kind === "ObjectId") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "resource error",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
