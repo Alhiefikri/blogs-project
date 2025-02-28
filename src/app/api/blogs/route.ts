@@ -1,6 +1,6 @@
+import { NextRequest, NextResponse } from "next/server";
 import { mongo_uri } from "@/constant";
 import connectDB from "@/database";
-import { NextRequest, NextResponse } from "next/server";
 import { Blog } from "@/models/blog";
 
 export async function GET(req: NextRequest) {
