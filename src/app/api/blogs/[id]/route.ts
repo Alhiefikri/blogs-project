@@ -42,7 +42,35 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return new NextResponse(`DELETE BLOG Detail ${params.id}`);
+  try {
+    await connectDB(mongo_uri);
+    await Blog.deleteOne({ _id: params.id });
+    return NextResponse.json({
+      success: true,
+      message: "Blog Removed",
+    });
+  } catch (error: any) {
+    if (error.name === "CastError" && error.kind === "ObjectId") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "resource error",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
 export async function PUT(
   req: NextRequest,
