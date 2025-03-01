@@ -1,6 +1,5 @@
 "use client";
 
-import { DivideCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
@@ -92,7 +91,7 @@ export default function Header() {
           <div className="flex flex-col gap-y-4 gap-x-0 mt-5 lg:flex-row lg:justify-center lg:items-center lg:gap-y-0 lg:gap-x-7 lg:mt-0">
             {navMenu.map((menu) => {
               return (
-                <div>
+                <div key={menu.title}>
                   <Link
                     className={pathname == menu.path ? active : inActive}
                     href={menu.path}
