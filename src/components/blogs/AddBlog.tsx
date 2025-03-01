@@ -1,7 +1,7 @@
 "use client";
 
 import { Copy } from "lucide-react";
-
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -66,10 +66,16 @@ export default function AddBlog({
       if (result?.success) {
         setFormData(initialState);
         setOpenBlogDialog(false);
+        toast("Succeed save blog data", {
+          description: "Page Updated",
+        });
         router.refresh();
       }
     } catch (error) {
       console.error(error);
+      toast("Failed save blog data", {
+        description: "There was a problem with your request",
+      });
       setFormData(initialState);
     }
   }

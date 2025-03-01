@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,6 +26,7 @@ export default function RootLayout({
         >
           <Header />
           <div className="p-8 md:px-28">{children}</div>
+          <Toaster theme="dark" />
         </ThemeProvider>
       </body>
     </html>
