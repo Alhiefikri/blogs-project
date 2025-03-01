@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 
 import { ReactNode, useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
+import { useRouter } from "next/navigation";
 
 export default function AddBlog({
   title,
@@ -34,6 +35,9 @@ export default function AddBlog({
     description: "",
     imageURL: "",
   };
+
+  const router = useRouter();
+
   const [openBlogDialog, setOpenBlogDialog] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialState);
   useEffect(() => {
@@ -45,6 +49,31 @@ export default function AddBlog({
       });
     }
   }, [blog]);
+
+  async function handleSaveBlog() {
+    try {
+      const apiResponse =
+        blog !== null && blog !== undefined
+          ? await fetch(`http://localhost:3000/api/blogs/${blog.id}`, {
+              method: "PUT",
+              body: JSON.stringify(formData),
+            })
+          : await fetch("http://localhost:3000/api/blogs", {
+              method: "POST",
+              body: JSON.stringify(formData),
+            });
+      const result = await apiResponse.json();
+      if (result?.success) {
+        setFormData(initialState);
+        setOpenBlogDialog(false);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+      setFormData(initialState);
+    }
+  }
+
   return (
     <div>
       <div onClick={() => setOpenBlogDialog(true)}>{children}</div>
@@ -104,7 +133,7 @@ export default function AddBlog({
           </div>
 
           <DialogFooter>
-            <Button onClick={() => setOpenBlogDialog(false)} type="submit">
+            <Button onClick={handleSaveBlog} type="submit">
               Save changes
             </Button>
           </DialogFooter>
