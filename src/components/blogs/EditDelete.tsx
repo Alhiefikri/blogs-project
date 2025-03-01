@@ -1,3 +1,5 @@
+"use client";
+
 import { Delete, Edit } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -10,8 +12,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddBlog from "./AddBlog";
 import { DTOBlogs } from "@/types";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function EditDelete({ blog }: { blog: DTOBlogs }) {
+  const router = useRouter();
+  async function handleDeleteById() {
+    try {
+      const apiResponse = await fetch(
+        `http://localhost:3000/api/blogs/${blog._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const result = await apiResponse.json();
+      if (result?.success) {
+        toast("Succeed deleted blog data", {
+          description: "Page Updated",
+        });
+        router.push("/blogs");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+      toast("Failed deleted blog data", {
+        description: "Page Updated",
+      });
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +61,7 @@ export function EditDelete({ blog }: { blog: DTOBlogs }) {
                 </div>
               </AddBlog>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDeleteById}>
               <Delete />
               <span>Delete</span>
             </DropdownMenuItem>

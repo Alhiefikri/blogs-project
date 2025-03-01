@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mongo_uri } from "@/constant";
+
 import connectDB from "@/database";
 import { Blog } from "@/models/blog";
 
@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    await connectDB(mongo_uri);
+    await connectDB(process.env.MONGODB_URI);
     const blog = await Blog.findById(params.id);
     return NextResponse.json({
       success: true,
@@ -43,7 +43,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    await connectDB(mongo_uri);
+    await connectDB(process.env.MONGODB_URI);
     await Blog.deleteOne({ _id: params.id });
     return NextResponse.json({
       success: true,
@@ -78,7 +78,7 @@ export async function PUT(
 ) {
   try {
     const { title, description, imageURL } = await req.json();
-    await connectDB(mongo_uri);
+    await connectDB(process.env.MONGODB_URI);
     const blog = await Blog.findOne({ _id: params.id });
 
     blog.title = title;

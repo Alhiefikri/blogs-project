@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mongo_uri } from "@/constant";
+
 import connectDB from "@/database";
 import { Blog } from "@/models/blog";
 
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const skip = (parseInt(page) - 1) * parseInt(limit);
 
   try {
-    await connectDB(mongo_uri);
+    await connectDB(process.env.MONGODB_URI);
     const blogs = await Blog.find()
       .sort({ date: -1 })
       .skip(skip)
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req: NextRequest) {
   try {
-    await connectDB(mongo_uri);
+    await connectDB(process.env.MONGODB_URI);
     const blogData = await req.json();
     const { title, description, imageURL } = blogData;
 
