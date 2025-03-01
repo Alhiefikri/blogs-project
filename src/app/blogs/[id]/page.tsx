@@ -33,7 +33,7 @@ export default async function BlogDetail({
           <div className="mt-6 lg:w-1/2 lg:mt-0 lg:mx-6 ">
             <div className="flex justify-between items-center">
               <p className="text-sm text-blue-500 uppercase">category</p>
-              <EditDelete />
+              <EditDelete blog={blog.data} />
             </div>
 
             <a

@@ -54,7 +54,7 @@ export default function AddBlog({
     try {
       const apiResponse =
         blog !== null && blog !== undefined
-          ? await fetch(`http://localhost:3000/api/blogs/${blog.id}`, {
+          ? await fetch(`http://localhost:3000/api/blogs/${blog._id}`, {
               method: "PUT",
               body: JSON.stringify(formData),
             })
